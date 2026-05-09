@@ -1,26 +1,62 @@
 # Plataforma de Monitorias Acadêmicas – UniRuy Wyden
 
-Projeto desenvolvido na disciplina de Engenharia de Software, seguindo o modelo tradicional de desenvolvimento de sistemas.
+Sistema web desenvolvido com o objetivo de automatizar o gerenciamento de monitorias acadêmicas da UniRuy Wyden, substituindo o processo manual atualmente realizado por meio de planilhas compartilhadas.
 
-## 📌 Objetivo
-Centralizar e organizar a divulgação e gestão de monitorias acadêmicas, permitindo cadastro de monitores, criação de cursos e inscrição de alunos.
+O projeto foi idealizado para as disciplinas de Engenharia de Software e Python RAD, contemplando desde a modelagem e documentação até a implementação e deploy em nuvem (AWS). 
 
-## 🧩 Estrutura do Projeto
+---
 
-- docs/ → Documentação completa (PDTI, Projeto Técnico, etc.)
-- diagramas/ → MER, DER, DFD
-- prototipo/ → Interfaces e telas
-- backend/ → API
-- frontend/ → Interface do usuário
+# 📌 Objetivo do Projeto
 
-## ⚙️ Tecnologias (previstas)
-- Backend: Node.js ou Python
-- Frontend: HTML/CSS/JS
-- Banco: PostgreSQL
+A plataforma tem como finalidade centralizar, organizar e facilitar o processo de divulgação e gerenciamento de monitorias acadêmicas.
 
-## 📊 Metodologia
-Modelo tradicional:
-- PDTI
-- Projeto Lógico
-- Projeto Físico
-- Implementação
+O sistema permitirá:
+
+- Divulgação de monitorias disponíveis
+- Cadastro de monitores
+- Inscrição de alunos em monitorias
+- Gerenciamento de monitorias
+- Área exclusiva para monitores
+
+---
+
+# 👥 Público-Alvo
+
+- Alunos interessados em participar de monitorias
+- Monitores voluntários
+- Coordenação acadêmica
+
+---
+
+# 🚀 Funcionalidades Principais
+
+## Área Pública
+- Visualização das monitorias disponíveis
+- Busca e filtragem de monitorias
+- Login de monitores
+
+## Área do Monitor
+- Cadastro de monitorias
+- Edição e remoção de monitorias
+- Visualização de alunos inscritos
+- Gerenciamento das inscrições
+
+## Sistema de Inscrições
+- Inscrição em monitorias
+- Controle de vagas
+- Registro de participantes
+
+---
+
+# 🧩 Estrutura do Projeto
+
+```text
+plataforma-monitorias/
+│
+├── docs/               # Documentação do projeto
+├── diagramas/          # Diagramas UML, MER, DER e DFD
+├── prototipo/          # Protótipos e interfaces
+├── backend/            # API e regras de negócio
+├── frontend/           # Interface web do sistema
+├── banco/              # Scripts SQL e modelagem
+└── README.md

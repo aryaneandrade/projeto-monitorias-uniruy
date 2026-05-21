@@ -84,7 +84,6 @@ projeto-monitorias-uniruy/
 ├── static/
 │   ├── css/
 │   └── img/
-├── db.sqlite3
 ├── manage.py
 ├── monitorias_uwsgi.ini
 ├── requirements.txt

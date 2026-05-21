@@ -1,0 +1,101 @@
+{% extends 'base.html' %} 
+{% block title %} 
+Editar Monitoria | UniRuy 
+{% endblock %} 
+{% block content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- CABEÇALHO -->
+      <div class="mb-4">
+        <h2 class="fw-bold mb-1">Editar Monitoria</h2>
+
+        <p class="text-muted mb-0">
+          Atualize as informações da monitoria cadastrada.
+        </p>
+      </div>
+
+      <!-- CARD -->
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-lg-5">
+          <form method="post">
+            {% csrf_token %}
+
+            <!-- TÍTULO -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Título da monitoria
+              </label>
+
+              {{ form.titulo }} {{ form.titulo.errors }}
+            </div>
+
+            <!-- DESCRIÇÃO -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold"> Descrição </label>
+
+              {{ form.descricao }} {{ form.descricao.errors }}
+            </div>
+
+            <!-- GRID -->
+            <div class="row">
+              <!-- CATEGORIA -->
+              <div class="col-md-4 mb-4">
+                <label class="form-label fw-semibold"> Categoria </label>
+
+                {{ form.categoria }} {{ form.categoria.errors }}
+              </div>
+
+              <!-- BENEFÍCIO -->
+              <div class="col-md-4 mb-4">
+                <label class="form-label fw-semibold"> Benefício </label>
+
+                {{ form.beneficio }} {{ form.beneficio.errors }}
+              </div>
+
+              <!-- DATA -->
+              <div class="col-md-4 mb-4">
+                <label class="form-label fw-semibold"> Data de Início </label>
+
+                {{ form.data }} {{ form.data.errors }}
+              </div>
+            </div>
+
+            <!-- VAGAS -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold"> Vagas disponíveis </label>
+
+              {{ form.vagas }} {{ form.vagas.errors }}
+            </div>
+
+            <!-- BOTÕES -->
+            <div class="d-flex gap-3 flex-wrap">
+              <button
+                type="submit"
+                class="btn btn-warning px-4 py-2 "
+              >
+                Salvar alterações
+              </button>
+              <a
+                href="{% url 'excluir_monitoria' object.pk %}"
+                class="btn btn-outline-danger px-4 py-2 "
+              >
+                <i class="fas fa-trash me-2"></i>
+                Excluir
+              </a>
+              <a
+                href="{% url 'painel' %}"
+                class="btn btn-outline-secondary px-4 py-2 "
+              >
+                Cancelar
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

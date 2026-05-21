@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Inscritos | UniRuy
+{% endblock %}
+
+{% block content %}
+
+<main class="container my-5">
+  <div class="mb-4">
+    <h3 class="fw-bold">Inscritos na monitoria</h3>
+    <p class="text-muted mb-0">{{ monitoria.titulo }}</p>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      {% if inscritos %}
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for inscrito in inscritos %}
+            <tr>
+              <td>{{ inscrito.nome }}</td>
+              <td>{{ inscrito.email }}</td>
+              <td>{{ inscrito.telefone }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="alert alert-info">
+        Ainda não há inscrições para esta monitoria.
+      </div>
+      {% endif %}
+
+      <a href="{% url 'painel' %}" class="btn btn-secondary mt-3">Voltar ao painel</a>
+    </div>
+  </div>
+</main>
+
+{% endblock %}

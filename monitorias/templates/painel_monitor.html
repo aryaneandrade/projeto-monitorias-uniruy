@@ -1,0 +1,109 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+
+Painel do Monitor | UniRuy 
+
+{% endblock %} 
+
+
+{% block content %}
+
+<!-- LISTAGEM -->
+<main class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-1">Minhas Monitorias</h3>
+
+      <p class="text-muted mb-0">
+        Total: {{ user.monitorias.count }} monitoria(s)
+      </p>
+    </div>
+
+    <a href="{% url 'criar_monitoria' %}" class="btn btn-warning">
+      <i class="fas fa-plus me-2"></i>
+      Nova Monitoria
+    </a>
+  </div>
+
+  <div class="row g-4">
+    {% for monitoria in user.monitorias.all %}
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body d-flex flex-column">
+          <!-- TOPO -->
+          <div class="d-flex justify-content-between mb-3">
+            <span class="badge bg-info-subtle text-dark">
+              {{ monitoria.beneficio }}
+            </span>
+
+            <span class="text-muted small"> {{ monitoria.categoria }} </span>
+          </div>
+
+          <!-- TITULO -->
+          <h5 class="card-title fw-bold">{{ monitoria.titulo }}</h5>
+
+          <!-- DESCRICAO -->
+          <p class="text-muted small flex-grow-1">
+            {{ monitoria.descricao }}
+          </p>
+
+          <hr />
+
+          <!-- DATA -->
+          <p class="small text-muted mb-4">
+            <i class="fas fa-calendar me-2"></i>
+            {{ monitoria.data|date:'d/m/Y' }}
+          </p>
+
+          <!-- VAGAS -->
+          <p class="small text-muted mb-4">
+            <i class="fas fa-door-open me-2"></i>
+            {{ monitoria.vagas }} {{ monitoria.vagas|pluralize:"vaga,vagas" }}
+          </p>
+
+          <!-- ACOES -->
+          <div class="d-grid gap-2">
+            <a href="{% url 'inscritos_monitoria' monitoria.pk %}" class="btn btn-outline-dark btn-sm">
+              <i class="fas fa-users me-2"></i>
+              Ver Inscritos
+            </a>
+
+            <a
+              href="{% url 'editar_monitoria' monitoria.pk %}"
+              class="btn btn-warning btn-sm"
+            >
+              <i class="fas fa-pen me-2"></i>
+              Editar
+            </a>
+
+            <a
+              href="{% url 'excluir_monitoria' monitoria.pk %}"
+              class="btn btn-outline-danger btn-sm"
+            >
+              <i class="fas fa-trash me-2"></i>
+              Excluir
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">
+      <div class="alert alert-secondary shadow-sm border-0 text-center py-4">
+        <h5 class="mb-3">Você ainda não cadastrou monitorias.</h5>
+
+        <a href="{% url 'criar_monitoria' %}" class="btn btn-warning">
+          Criar primeira monitoria
+        </a>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock %}

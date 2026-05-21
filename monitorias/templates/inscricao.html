@@ -1,0 +1,81 @@
+{% extends 'home.html' %} {% block content %}
+
+<!-- HERO -->
+<header class="hero-area-monitor py-5">
+  <div class="container text-center">
+    <h1 class="fw-bold">Inscrição na Monitoria</h1>
+
+    <p class="lead mb-0">
+      Preencha os dados abaixo para confirmar sua participação.
+    </p>
+  </div>
+</header>
+
+<!-- FORM -->
+<section class="py-2">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body p-4 p-lg-5">
+            <div class="mb-4">
+              <h3 class="fw-bold mb-1">Seus dados</h3>
+
+              <p class="text-muted mb-0">
+                Informe corretamente suas informações de contato.
+              </p>
+            </div>
+            {% if erro %}
+            <div class="alert alert-danger">{{ erro }}</div>
+            {% endif %}
+
+            <form method="post">
+              {% csrf_token %}
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Nome completo</label>
+                {% if form.nome.errors %}
+                <div class="text-danger small mb-1">
+                  {{ form.nome.errors.0 }}
+                </div>
+                {% endif %} {{ form.nome }}
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Email</label>
+                {% if form.email.errors %}
+                <div class="text-danger small mb-1">
+                  {{ form.email.errors.0 }}
+                </div>
+                {% endif %} {{ form.email }}
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold">WhatsApp</label>
+                {% if form.telefone.errors %}
+                <div class="text-danger small mb-1">
+                  {{ form.telefone.errors.0 }}
+                </div>
+                {% endif %} {{ form.telefone }}
+              </div>
+
+              <div class="d-grid gap-3">
+                <button type="submit" class="btn btn-warning">
+                  Confirmar inscrição
+                </button>
+
+                <a
+                  href="{% url 'monitorias_list' %}"
+                  class="btn btn-outline-secondary"
+                >
+                  Cancelar
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

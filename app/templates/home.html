@@ -1,0 +1,115 @@
+{% load static %}
+
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{% block title %} UniRuy {% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'monitorias_list' %}">
+          <img
+            src="{% static 'img/logo-wyden.svg' %}"
+            alt="Logo Wyden"
+            class="img-fluid"
+            style="height: 40px"
+          />
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+          <ul class="navbar-nav ms-auto align-items-center">
+            {% if user.is_authenticated %}
+            <li class="nav-item me-3">
+              <a class="nav-link" href="{% url 'painel' %}">
+                <i class="fas fa-tachometer-alt me-2"></i>
+                Meu Painel
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-outline-secondary rounded-2 px-4 py-2" href="{% url 'logout' %}">
+                Sair
+              </a>
+            </li>
+            {% else %}
+            <li class="nav-item me-3">
+              <a class="nav-link" href="{% url 'login' %}">
+                <i class="fas fa-user-tie me-2"></i>
+                Área do Monitor
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="btn btn-warning rounded-2 px-4 py-2"
+                href="{% url 'registro' %}"
+              >
+                Quero ser monitor
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% if messages %}
+    <div class="container mt-3 mb-2">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="flex-grow-1">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-4 shadow-sm">
+      <div class="container text-center">
+        <p class="small text-muted mb-0">
+          Plataforma de Monitorias Acadêmicas - UniRuy Wyden - 2026
+        </p>
+        <p class="small text-muted">Desenvolvido por: Aryane Andrade</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

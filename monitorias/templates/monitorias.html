@@ -1,0 +1,123 @@
+{% extends 'home.html' %} {% block content %}
+
+<header class="hero-section text-center py-5 bg-light">
+  <div class="container">
+    <h1>Plataforma de Monitorias</h1>
+
+    <p class="lead">Inscrições abertas para monitorias acadêmicas.</p>
+  </div>
+</header>
+
+<!-- Busca e filtros -->
+<div class="container my-4">
+  <div class="card shadow border-0 p-4">
+    <!-- FORM -->
+    <form method="GET">
+      <!-- Busca -->
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          name="search"
+          class="form-control"
+          placeholder="Buscar monitoria..."
+          value="{{ request.GET.search }}"
+        />
+
+        <button class="btn btn-warning">Buscar</button>
+      </div>
+
+      <!-- Filtros -->
+      <div class="text-center">
+        <!-- TODOS -->
+        <a
+          href="?"
+          class="btn btn-sm {% if not request.GET.categoria %}btn-warning text-dark{% else %}btn-outline-warning{% endif %}"
+        >
+          Todos
+        </a>
+
+        <!-- CATEGORIAS -->
+        {% for categoria in categorias %}
+
+        <a
+          href="?categoria={{ categoria.id }}"
+          class="btn btn-sm {% if request.GET.categoria == categoria.id|stringformat:'s' %} btn-warning text-dark {% else %} btn-outline-warning {% endif %}"
+        >
+          {{ categoria.nome }}
+        </a>
+
+        {% endfor %}
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Cards -->
+<main class="container my-5">
+  <div class="row g-4">
+    {% for monitoria in monitorias %}
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="badge bg-info-subtle text-dark">
+              {{ monitoria.beneficio }}
+            </span>
+
+            <span class="text-muted small"> {{ monitoria.categoria }} </span>
+          </div>
+
+          <h5 class="card-title fw-bold">{{ monitoria.titulo }}</h5>
+
+          <p class="text-muted small">{{ monitoria.descricao }}</p>
+
+          <hr />
+
+          <p class="small">
+            <i class="fas fa-user me-2"></i>
+            <strong> Monitor:</strong> {{ monitoria.owner.username }}
+          </p>
+
+          <p class="small">
+            <i class="fas fa-calendar me-2"></i>
+            <strong>Início:</strong> {{ monitoria.data|date:'d/m/Y' }}
+          </p>
+
+          <p class="small">
+            <i class="fas fa-users me-2"></i>
+            <strong>Inscritos:</strong> {{ monitoria.total_inscricoes }}/{{ monitoria.vagas }}
+          </p>
+
+          {% if user.is_authenticated and monitoria.owner == user %}
+          <button class="btn btn-secondary w-100" disabled>
+            Minha monitoria
+          </button>
+          {% else %}
+          {% if monitoria.total_inscricoes >= monitoria.vagas %}
+          <button class="btn btn-outline-secondary w-100" disabled>
+            Vagas preenchidas
+          </button>
+          {% else %}
+          <a
+            href="{% url 'inscricao_monitoria' monitoria.pk %}"
+            class="btn btn-warning w-100"
+          >
+            Inscreva-se
+          </a>
+          {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% empty %}
+
+    <div class="alert alert-warning text-center">
+      Nenhuma monitoria encontrada.
+    </div>
+
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

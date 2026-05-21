@@ -1,62 +1,171 @@
 # Plataforma de Monitorias Acadêmicas – UniRuy Wyden
 
-Sistema web desenvolvido com o objetivo de automatizar o gerenciamento de monitorias acadêmicas da UniRuy Wyden, substituindo o processo manual atualmente realizado por meio de planilhas compartilhadas.
-
-O projeto foi idealizado para as disciplinas de Engenharia de Software e Python RAD, contemplando desde a modelagem e documentação até a implementação e deploy em nuvem (AWS). 
+Plataforma web construída em Django para gerenciamento de monitorias acadêmicas. A aplicação centraliza a divulgação de monitorias, permite cadastro de monitores, inscrições de alunos e controle de vagas.
 
 ---
 
-# 📌 Objetivo do Projeto
+## Visão Geral
 
-A plataforma tem como finalidade centralizar, organizar e facilitar o processo de divulgação e gerenciamento de monitorias acadêmicas.
+A solução é composta por dois aplicativos Django principais:
 
-O sistema permitirá:
+- `contas`: autenticação de usuários, registro e acesso ao painel do monitor.
+- `monitorias`: cadastro, edição, exclusão e listagem de monitorias; gerenciamento de inscrições; controle de capacidade.
 
-- Divulgação de monitorias disponíveis
-- Cadastro de monitores
-- Inscrição de alunos em monitorias
-- Gerenciamento de monitorias
-- Área exclusiva para monitores
+A arquitetura segue o padrão Django MVC, com:
 
----
-
-# 👥 Público-Alvo
-
-- Alunos interessados em participar de monitorias
-- Monitores voluntários
-- Coordenação acadêmica
+- `app/`: configuração do projeto Django, URLs e templates globais.
+- `monitorias/`: lógica de negócio para monitorias, inscrições, categorias e benefícios.
+- `contas/`: formulários e views de autenticação.
+- `static/`: recursos estáticos de CSS e imagens.
 
 ---
 
-# 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
-## Área Pública
-- Visualização das monitorias disponíveis
-- Busca e filtragem de monitorias
-- Login de monitores
-
-## Área do Monitor
-- Cadastro de monitorias
-- Edição e remoção de monitorias
-- Visualização de alunos inscritos
-- Gerenciamento das inscrições
-
-## Sistema de Inscrições
-- Inscrição em monitorias
-- Controle de vagas
-- Registro de participantes
+- Página pública de listagem de monitorias em `/monitorias/`.
+- Pesquisa por título e filtro por categoria na listagem pública.
+- Cadastro e login de usuários para monitores.
+- Painel privado do monitor em `/painel/`.
+- Criação, edição e exclusão de monitorias próprias.
+- Visualização de inscritos por monitoria.
+- Registro de inscrições públicas com validação de e-mail único por monitoria.
+- Controle de vagas através da propriedade `Monitoria.vagas` e filtro de lotação.
+- Proteção de edição/exclusão para que apenas o proprietário da monitoria possa gerenciar seus dados.
 
 ---
 
-# 🧩 Estrutura do Projeto
+## Regras de Negócio
+
+- Monitores devem estar autenticados para criar, editar, excluir monitorias e acessar o painel.
+- Um monitor não pode inscrever-se em sua própria monitoria.
+- Cada inscrição é vinculada a uma `Monitoria` e contém `nome`, `email` e `telefone`.
+- O e-mail de inscrição deve ser único para cada monitoria (`UniqueConstraint` em `Inscricao`).
+- Uma monitoria lota quando o total de inscrições atinge o número de vagas configurado.
+- Categorias e benefícios são referências obrigatórias para monitorias e devem ser preenchidas antes da criação.
+
+---
+
+## Estrutura do Projeto
 
 ```text
-plataforma-monitorias/
-│
-├── docs/               # Documentação do projeto
-├── diagramas/          # Diagramas UML, MER, DER e DFD
-├── prototipo/          # Protótipos e interfaces
-├── backend/            # API e regras de negócio
-├── frontend/           # Interface web do sistema
-├── banco/              # Scripts SQL e modelagem
+projeto-monitorias-uniruy/
+├── app/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── templates/
+│       ├── base.html
+│       └── home.html
+├── contas/
+│   ├── __init__.py
+│   ├── forms.py
+│   ├── views.py
+│   └── templates/
+│       ├── login.html
+│       └── registro.html
+├── monitorias/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── views.py
+│   ├── migrations/
+│   └── templates/
+│       ├── criar_monitoria.html
+│       ├── editar_monitoria.html
+│       ├── excluir_monitoria.html
+│       ├── inscricao.html
+│       ├── inscritos_monitoria.html
+│       ├── monitorias.html
+│       └── painel_monitor.html
+├── static/
+│   ├── css/
+│   └── img/
+├── db.sqlite3
+├── manage.py
+├── monitorias_uwsgi.ini
+├── requirements.txt
+├── uwsgi_params
 └── README.md
+```
+
+---
+
+## Tecnologias Utilizadas
+
+- Django 6.0.5
+- Python (versão compatível com Django 6)
+- PostgreSQL (configuração padrão em `app/settings.py`)
+- psycopg2-binary
+- Pillow
+- Bootstrap 5 (via CDN)
+- Font Awesome (via CDN)
+
+---
+
+## Instalação
+
+```bash
+git clone https://github.com/aryaneandrade/projeto-monitorias-uniruy.git
+cd projeto-monitorias-uniruy
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Configuração do banco de dados
+
+O projeto está configurado para PostgreSQL em `app/settings.py`:
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'monitorias',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
+
+Atualize esses valores conforme o ambiente local.
+
+---
+
+## Execução
+
+```bash
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+Acesse a aplicação em `http://127.0.0.1:8000/monitorias/`.
+
+---
+
+## Administração
+
+A interface administrativa do Django está disponível em `/admin/`.
+
+Modelos registrados:
+
+- `Monitoria`
+- `Categoria`
+- `Beneficio`
+- `Inscricao`
+
+Use o admin para gerenciar categorias e benefícios antes de criar monitorias.
+
+---
+
+## Observações
+
+- O projeto inclui arquivo de configuração uWSGI (`monitorias_uwsgi.ini`) e `uwsgi_params` para implantação.
+- `db.sqlite3` está presente no repositório, mas a configuração padrão do projeto aponta para PostgreSQL.
+- O sistema não implementa integrações externas de pagamento, mensageria ou APIs de terceiros.

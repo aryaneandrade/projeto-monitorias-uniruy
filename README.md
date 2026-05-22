@@ -85,9 +85,7 @@ projeto-monitorias-uniruy/
 │   ├── css/
 │   └── img/
 ├── manage.py
-├── monitorias_uwsgi.ini
 ├── requirements.txt
-├── uwsgi_params
 └── README.md
 ```
 
@@ -165,6 +163,6 @@ Use o admin para gerenciar categorias e benefícios antes de criar monitorias.
 
 ## Observações
 
-- O projeto inclui arquivo de configuração uWSGI (`monitorias_uwsgi.ini`) e `uwsgi_params` para implantação.
-- `db.sqlite3` está presente no repositório, mas a configuração padrão do projeto aponta para PostgreSQL.
+- O projeto está configurado para PostgreSQL e o deploy atual usa Gunicorn com Nginx.
+- `db.sqlite3` está presente localmente como artefato de desenvolvimento, mas não é usado pela configuração Docker atual.
 - O sistema não implementa integrações externas de pagamento, mensageria ou APIs de terceiros.

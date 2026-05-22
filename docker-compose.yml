@@ -1,0 +1,53 @@
+
+services:
+  db:
+    image: postgres:15
+    env_file: .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/home/appuser/projeto:rw
+      - static_volume:/home/appuser/projeto/staticfiles
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/monitorias/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/usr/share/nginx/html:ro
+      - ./compose/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  static_volume:

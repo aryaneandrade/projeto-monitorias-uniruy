@@ -146,6 +146,67 @@ Acesse a aplicação em `http://127.0.0.1:8000/monitorias/`.
 
 ---
 
+## Deploy local com Docker Compose
+
+1. Copie as variáveis de ambiente:
+
+```bash
+cp .env.example .env
+```
+
+2. Ajuste os valores em `.env` para o ambiente local.
+
+3. Suba o ambiente local com banco Docker:
+
+```bash
+docker compose up -d --build
+```
+
+4. Acesse a aplicação em `http://127.0.0.1:8080/`.
+
+---
+
+## AWS EC2 + RDS
+
+A configuração de produção usa `docker-compose.prod.yml`, que não inicia um container PostgreSQL local.
+
+1. Crie um banco PostgreSQL no Amazon RDS e defina o endpoint, usuário e senha.
+
+2. No EC2, clone o repositório:
+
+```bash
+git clone https://github.com/aryaneandrade/projeto-monitorias-uniruy.git
+cd projeto-monitorias-uniruy
+```
+
+3. Copie o arquivo de exemplo e atualize as variáveis:
+
+```bash
+cp .env.example .env
+```
+
+4. No `.env`, ajuste:
+
+- `DJANGO_SECRET_KEY`
+- `DJANGO_DEBUG=False`
+- `DJANGO_ALLOWED_HOSTS=<seu-dominio-ou-ip>`
+- `DJANGO_CSRF_TRUSTED_ORIGINS=https://<seu-dominio-ou-ip>`
+- `POSTGRES_HOST=<endpoint-do-rds>`
+- `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+- `DJANGO_SECURE_SSL_REDIRECT=True` se o tráfego for HTTPS
+- `DJANGO_SECURE_HSTS_SECONDS=31536000` em produção HTTPS
+- `DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=True` e `DJANGO_SECURE_HSTS_PRELOAD=True` quando adequado
+
+5. Suba a aplicação em produção:
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+6. Abra a porta `80` no Security Group do EC2 e permita acesso ao RDS apenas a partir do security group do EC2.
+
+---
+
 ## Administração
 
 A interface administrativa do Django está disponível em `/admin/`.

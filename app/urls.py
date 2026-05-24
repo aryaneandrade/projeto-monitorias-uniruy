@@ -1,6 +1,7 @@
 # Rotas do projeto
 from django.contrib import admin
 from django.urls import path
+from django.views.generic.base import RedirectView
 from monitorias.views import (
     MonitoriaListView,
     MonitoriaInscricaoView,
@@ -13,6 +14,7 @@ from monitorias.views import (
 from contas.views import register_view, login_view, logout_view
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/monitorias/', permanent=False)),
     path('admin/', admin.site.urls),
     path('monitorias/', MonitoriaListView.as_view(), name='monitorias_list'),
     path('monitorias/<int:pk>/inscricao/', MonitoriaInscricaoView.as_view(), name='inscricao_monitoria'),

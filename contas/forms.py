@@ -6,10 +6,11 @@ from django.contrib.auth.models import User
 class RegisterForm(UserCreationForm):
 
     username = forms.CharField(
-        label='Usuário',
+        label='Nome de usuário',
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Digite seu usuário'
+            'placeholder': 'ex: nome.sobrenome',
+            'autocomplete': 'username'
         })
     )
 
@@ -48,7 +49,8 @@ class LoginForm(AuthenticationForm):
         label='Usuário',
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Digite seu usuário'
+            'placeholder': 'Digite seu usuário',
+            'autocomplete': 'username'
         })
     )
 

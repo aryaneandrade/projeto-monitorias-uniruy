@@ -1,11 +1,110 @@
 {% extends 'home.html' %} {% block content %}
+<!-- HERO CAROUSEL -->
+<header>
 
-<header class="hero-section text-center py-5">
-  <div class="container">
-    <h1>Plataforma de Monitorias</h1>
+  <div
+    id="heroCarousel"
+    class="carousel slide carousel-fade"
+    data-bs-ride="carousel"
+    data-bs-interval="5000"
+  >
 
-    <p class="lead">Inscrições abertas para monitorias acadêmicas.</p>
+    <!-- Indicadores -->
+    <div class="carousel-indicators">
+
+      <button
+        type="button"
+        data-bs-target="#heroCarousel"
+        data-bs-slide-to="0"
+        class="active"
+        aria-current="true"
+      ></button>
+
+      <button
+        type="button"
+        data-bs-target="#heroCarousel"
+        data-bs-slide-to="1"
+      ></button>
+
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+
+      <!-- Slide 1 -->
+      <div class="carousel-item active">
+
+        <div class="hero-slide hero-estudantes text-center">
+
+          <div class="container">
+
+            <span class="badge bg-warning text-dark mb-3 px-3 py-2">
+              Monitorias Acadêmicas
+            </span>
+
+            <h1 class="mb-3">
+              Plataforma de Gestão de Monitorias
+            </h1>
+
+            <p class="lead mb-4">
+              Inscrições abertas para monitorias acadêmicas da UniRuy Wyden.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-item">
+
+        <div class="hero-slide hero-monitor text-center">
+
+          <div class="container">
+
+            <span class="badge bg-warning text-dark mb-3 px-3 py-2">
+              Seja Monitor
+            </span>
+
+            <h1 class="mb-3">
+              Compartilhe seu conhecimento
+            </h1>
+
+            <p class="lead mb-4">
+              Torne-se monitor e contribua com o desenvolvimento acadêmico.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Controles -->
+
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#heroCarousel"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#heroCarousel"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon"></span>
+    </button>
+
   </div>
+
 </header>
 
 <!-- Busca e filtros -->

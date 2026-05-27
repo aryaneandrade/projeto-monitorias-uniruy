@@ -48,7 +48,6 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-
           <ul class="navbar-nav ms-auto align-items-center">
             {% if user.is_authenticated %}
             <li class="nav-item me-3">
@@ -58,7 +57,10 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-outline-secondary rounded-2 px-4 py-2" href="{% url 'logout' %}">
+              <a
+                class="btn btn-outline-secondary rounded-2"
+                href="{% url 'logout' %}"
+              >
                 Sair
               </a>
             </li>
@@ -72,7 +74,7 @@
 
             <li class="nav-item">
               <a
-                class="btn btn-warning rounded-2 px-4 py-2"
+                class="btn btn-warning btn-inscricao rounded-2 px-4 py-2"
                 href="{% url 'registro' %}"
               >
                 Quero ser monitor
@@ -94,18 +96,60 @@
     </div>
     {% endif %}
 
-    <main class="flex-grow-1">
-      {% block content %}
-      {% endblock %}
-    </main>
+    <main class="flex-grow-1">{% block content %} {% endblock %}</main>
 
-    <!-- Footer -->
-    <footer class="bg-white py-4 shadow-sm">
-      <div class="container text-center">
-        <p class="small text-muted mb-0">
-          Plataforma de Monitorias Acadêmicas - UniRuy Wyden - 2026
-        </p>
-        <p class="small text-muted">Desenvolvido por: Aryane Andrade</p>
+    <footer class="py-4 mt-auto bg-white border-top">
+      <div class="container">
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        >
+          <!-- Texto -->
+          <div class="text-muted small mb-3 mb-md-0">
+            © 2026 Monitorias Acadêmicas
+          </div>
+
+          <!-- Logo -->
+          <a
+            href="{% url 'monitorias_list' %}"
+            class="mb-3 mb-md-0 text-decoration-none"
+          >
+            <img
+              src="{% static 'img/logo-wyden.svg' %}"
+              alt="Logo Wyden"
+              style="height: 32px"
+            />
+          </a>
+
+          <!-- Links -->
+          <ul class="nav">
+            <li class="nav-item">
+              <a
+                href="{% url 'monitorias_list' %}"
+                class="nav-link px-2 text-muted"
+              >
+                Início
+              </a>
+            </li>
+
+            {% if user.is_authenticated %}
+
+            <li class="nav-item">
+              <a href="{% url 'painel' %}" class="nav-link px-2 text-muted">
+                Painel
+              </a>
+            </li>
+
+            {% else %}
+
+            <li class="nav-item">
+              <a href="{% url 'login' %}" class="nav-link px-2 text-muted">
+                Área do Monitor
+              </a>
+            </li>
+
+            {% endif %}
+          </ul>
+        </div>
       </div>
     </footer>
 

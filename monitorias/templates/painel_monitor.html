@@ -1,13 +1,4 @@
-{% extends 'base.html' %} 
-
-{% block title %} 
-
-Painel do Monitor | UniRuy 
-
-{% endblock %} 
-
-
-{% block content %}
+{% extends 'base.html' %} {% block title %} Painel do Monitor | UniRuy {% endblock %} {% block content %}
 
 <!-- LISTAGEM -->
 <main class="container my-5">
@@ -20,7 +11,7 @@ Painel do Monitor | UniRuy
       </p>
     </div>
 
-    <a href="{% url 'criar_monitoria' %}" class="btn btn-warning">
+    <a href="{% url 'criar_monitoria' %}" class="btn btn-warning btn-inscricao">
       <i class="fas fa-plus me-2"></i>
       Nova Monitoria
     </a>
@@ -45,34 +36,37 @@ Painel do Monitor | UniRuy
           <h5 class="card-title fw-bold">{{ monitoria.titulo }}</h5>
 
           <!-- DESCRICAO -->
-          <p class="text-muted small flex-grow-1">
-            {{ monitoria.descricao }}
-          </p>
+          <p class="text-muted small flex-grow-1">{{ monitoria.descricao }}</p>
 
           <hr />
 
           <!-- DATA -->
-          <p class="small text-muted mb-4">
+          <p class="small">
             <i class="fas fa-calendar me-2"></i>
+
+            <strong>Início:</strong>
             {{ monitoria.data|date:'d/m/Y' }}
           </p>
 
           <!-- VAGAS -->
-          <p class="small text-muted mb-4">
-            <i class="fas fa-door-open me-2"></i>
-            {{ monitoria.vagas }} {{ monitoria.vagas|pluralize:"vaga,vagas" }}
+          <p class="small">
+            <i class="fas fa-users me-2"></i>
+            <strong>Inscritos:</strong>
+            {{ monitoria.vagas_preenchidas }}/{{ monitoria.vagas }}
           </p>
-
           <!-- ACOES -->
           <div class="d-grid gap-2">
-            <a href="{% url 'inscritos_monitoria' monitoria.pk %}" class="btn btn-outline-dark btn-sm">
+            <a
+              href="{% url 'inscritos_monitoria' monitoria.pk %}"
+              class="btn btn-outline-dark btn-sm"
+            >
               <i class="fas fa-users me-2"></i>
               Ver Inscritos
             </a>
 
             <a
               href="{% url 'editar_monitoria' monitoria.pk %}"
-              class="btn btn-warning btn-sm"
+              class="btn btn-outline-warning btn-sm"
             >
               <i class="fas fa-pen me-2"></i>
               Editar
@@ -96,7 +90,10 @@ Painel do Monitor | UniRuy
       <div class="alert alert-secondary shadow-sm border-0 text-center py-4">
         <h5 class="mb-3">Você ainda não cadastrou monitorias.</h5>
 
-        <a href="{% url 'criar_monitoria' %}" class="btn btn-warning">
+        <a
+          href="{% url 'criar_monitoria' %}"
+          class="btn btn-warning btn-inscricao"
+        >
           Criar primeira monitoria
         </a>
       </div>

@@ -3,11 +3,11 @@ from monitorias.models import Monitoria, Inscricao
 
 
 class MonitoriaModelForm(forms.ModelForm):
-
+    
     class Meta:
         model = Monitoria
 
-        exclude = ['owner']
+        exclude = ['owner']   
 
         widgets = {
 

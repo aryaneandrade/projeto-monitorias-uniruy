@@ -29,3 +29,5 @@ media/
 # IDEs
 .vscode/
 .idea/
+
+DEPLOY.md

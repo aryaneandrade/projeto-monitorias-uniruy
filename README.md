@@ -1,5 +1,15 @@
 # Plataforma de Monitorias Acadêmicas – UniRuy Wyden
 
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-6.0-darkgreen?logo=django&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-316192?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED?logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker_Compose-Orchestration-1D63ED?logo=docker&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?logo=amazonaws&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-Web_Server-009639?logo=nginx&logoColor=white)
+![Gunicorn](https://img.shields.io/badge/Gunicorn-WSGI_Server-499848)
+
 Aplicação Django para gestão de monitorias acadêmicas, com cadastro de monitores, divulgação de vagas e controle de inscrições.
 
 ## Visão geral
@@ -30,6 +40,7 @@ Sistema web com painel de monitores e portal público de monitorias. O projeto o
 
 ## Estrutura principal
 
+- `docs/` – documentação técnica, diagramas, relatórios e apresentações
 - `app/` – configuração do projeto, URLs e templates globais
 - `contas/` – autenticação e registro
 - `monitorias/` – gestão de monitorias e inscrições

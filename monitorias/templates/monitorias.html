@@ -23,7 +23,7 @@
           value="{{ request.GET.search }}"
         />
 
-        <button class="btn btn-warning">Buscar</button>
+        <button class="btn btn-warning btn-inscricao">Buscar</button>
       </div>
 
       <!-- Filtros -->
@@ -101,7 +101,7 @@
           {% else %}
           <a
             href="{% url 'inscricao_monitoria' monitoria.pk %}"
-            class="btn btn-warning w-100"
+            class="btn btn-warning btn-inscricao w-100"
           >
             Inscreva-se
           </a>

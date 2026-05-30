@@ -42,6 +42,24 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Este email já está em uso.")
+
+        return email
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        user.email = self.cleaned_data["email"].lower()
+
+        if commit:
+            user.save()
+
+        return user
+
 
 class LoginForm(AuthenticationForm):
 
@@ -49,7 +67,7 @@ class LoginForm(AuthenticationForm):
         label='Usuário',
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Digite seu usuário',
+            'placeholder': 'Digite seu usuário ou e-mail',
             'autocomplete': 'username'
         })
     )

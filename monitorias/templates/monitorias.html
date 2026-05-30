@@ -1,4 +1,6 @@
-{% extends 'home.html' %} {% block content %}
+{% extends 'home.html' %}
+{% block content %}
+
 <!-- HERO CAROUSEL -->
 <header>
 
@@ -9,7 +11,6 @@
     data-bs-interval="5000"
   >
 
-    <!-- Indicadores -->
     <div class="carousel-indicators">
 
       <button
@@ -28,14 +29,11 @@
 
     </div>
 
-    <!-- Slides -->
     <div class="carousel-inner">
 
       <!-- Slide 1 -->
       <div class="carousel-item active">
-
         <div class="hero-slide hero-estudantes text-center">
-
           <div class="container">
 
             <span class="badge bg-warning text-dark mb-3 px-3 py-2">
@@ -51,16 +49,12 @@
             </p>
 
           </div>
-
         </div>
-
       </div>
 
       <!-- Slide 2 -->
       <div class="carousel-item">
-
         <div class="hero-slide hero-monitor text-center">
-
           <div class="container">
 
             <span class="badge bg-warning text-dark mb-3 px-3 py-2">
@@ -76,14 +70,10 @@
             </p>
 
           </div>
-
         </div>
-
       </div>
 
     </div>
-
-    <!-- Controles -->
 
     <button
       class="carousel-control-prev"
@@ -107,12 +97,12 @@
 
 </header>
 
-<!-- Busca e filtros -->
+<!-- BUSCA -->
 <div class="container my-4">
   <div class="card shadow border-0 p-4">
-    <!-- FORM -->
+
     <form method="GET">
-      <!-- Busca -->
+
       <div class="input-group mb-3">
         <input
           type="text"
@@ -122,12 +112,13 @@
           value="{{ request.GET.search }}"
         />
 
-        <button class="btn btn-warning btn-inscricao">Buscar</button>
+        <button class="btn btn-warning btn-inscricao">
+          Buscar
+        </button>
       </div>
 
-      <!-- Filtros -->
       <div class="text-center">
-        <!-- TODOS -->
+
         <a
           href="?"
           class="btn btn-sm {% if not request.GET.categoria %}btn-warning text-dark{% else %}btn-outline-warning{% endif %}"
@@ -135,47 +126,60 @@
           Todos
         </a>
 
-        <!-- CATEGORIAS -->
         {% for categoria in categorias %}
-
         <a
           href="?categoria={{ categoria.id }}"
-          class="btn btn-sm {% if request.GET.categoria == categoria.id|stringformat:'s' %} btn-warning text-dark {% else %} btn-outline-warning {% endif %}"
+          class="btn btn-sm {% if request.GET.categoria == categoria.id|stringformat:'s' %}btn-warning text-dark{% else %}btn-outline-warning{% endif %}"
         >
           {{ categoria.nome }}
         </a>
-
         {% endfor %}
+
       </div>
+
     </form>
+
   </div>
 </div>
 
-<!-- Cards -->
+<!-- CARDS -->
 <main class="container my-5">
+
   <div class="row g-4">
+
     {% for monitoria in monitorias %}
 
     <div class="col-md-4">
       <div class="card h-100 shadow-sm card-monitoria">
+
         <div class="card-body">
+
           <div class="d-flex justify-content-between mb-2">
+
             <span class="badge bg-info-subtle text-dark">
               {{ monitoria.beneficio }}
             </span>
 
-            <span class="text-muted small"> {{ monitoria.categoria }} </span>
+            <span class="text-muted small">
+              {{ monitoria.categoria }}
+            </span>
+
           </div>
 
-          <h5 class="card-title fw-bold">{{ monitoria.titulo }}</h5>
+          <h5 class="card-title fw-bold">
+            {{ monitoria.titulo }}
+          </h5>
 
-          <p class="text-muted small">{{ monitoria.descricao }}</p>
+          <p class="text-muted small">
+            {{ monitoria.descricao }}
+          </p>
 
           <hr />
 
+          <!-- ✔ CORRIGIDO AQUI -->
           <p class="small">
             <i class="fas fa-user me-2"></i>
-            <strong> Monitor:</strong> {{ monitoria.owner.username }}
+            <strong>Monitor:</strong> {{ monitoria.monitor.username }}
           </p>
 
           <p class="small">
@@ -185,28 +189,39 @@
 
           <p class="small">
             <i class="fas fa-users me-2"></i>
-            <strong>Inscritos:</strong> {{ monitoria.total_inscricoes }}/{{ monitoria.vagas }}
+            <strong>Inscritos:</strong>
+            {{ monitoria.total_inscricoes }}/{{ monitoria.vagas }}
           </p>
 
-          {% if user.is_authenticated and monitoria.owner == user %}
-          <button class="btn btn-secondary w-100" disabled>
-            Minha monitoria
-          </button>
+          {% if user.is_authenticated and monitoria.monitor == user %}
+
+            <button class="btn btn-secondary w-100" disabled>
+              Minha monitoria
+            </button>
+
           {% else %}
-          {% if monitoria.total_inscricoes >= monitoria.vagas %}
-          <button class="btn btn-outline-secondary w-100" disabled>
-            Vagas preenchidas
-          </button>
-          {% else %}
-          <a
-            href="{% url 'inscricao_monitoria' monitoria.pk %}"
-            class="btn btn-warning btn-inscricao w-100"
-          >
-            Inscreva-se
-          </a>
+
+            {% if monitoria.total_inscricoes >= monitoria.vagas %}
+
+              <button class="btn btn-outline-secondary w-100" disabled>
+                Vagas preenchidas
+              </button>
+
+            {% else %}
+
+              <a
+                href="{% url 'inscricao_monitoria' monitoria.pk %}"
+                class="btn btn-warning btn-inscricao w-100"
+              >
+                Inscreva-se
+              </a>
+
+            {% endif %}
+
           {% endif %}
-          {% endif %}
+
         </div>
+
       </div>
     </div>
 
@@ -217,6 +232,9 @@
     </div>
 
     {% endfor %}
+
   </div>
+
 </main>
+
 {% endblock %}

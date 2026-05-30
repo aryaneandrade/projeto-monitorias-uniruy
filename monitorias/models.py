@@ -27,7 +27,7 @@ class Monitoria(models.Model):
     beneficio = models.ForeignKey(Beneficio, on_delete=models.PROTECT, related_name='beneficio_monitoria')
     vagas = models.PositiveIntegerField(default=1)
 
-    owner = models.ForeignKey(
+    monitor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='monitorias',

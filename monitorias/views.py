@@ -50,7 +50,7 @@ class NovaMonitoriaCreateView(LoginRequiredMixin, CreateView):
     login_url = 'login'
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        form.instance.monitor = self.request.user
         response = super().form_valid(form)
         messages.success(self.request, 'Monitoria criada com sucesso!')
         return response
@@ -64,7 +64,7 @@ class MonitoriaUpdateView(LoginRequiredMixin, UpdateView):
     login_url = 'login'
 
     def get_queryset(self):
-        return Monitoria.objects.filter(owner=self.request.user)
+        return Monitoria.objects.filter(monitor=self.request.user)
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -82,7 +82,7 @@ class MonitoriaDeleteView(LoginRequiredMixin, DeleteView):
     login_url = 'login'
     
     def get_queryset(self):
-        return Monitoria.objects.filter(owner=self.request.user)
+        return Monitoria.objects.filter(monitor=self.request.user)
 
     def delete(self, request, *args, **kwargs):
         response = super().delete(request, *args, **kwargs)
@@ -105,7 +105,7 @@ class MonitoriaInscricaoView(View):
     def post(self, request, pk):
         monitoria = get_object_or_404(Monitoria, pk=pk)
 
-        if request.user.is_authenticated and monitoria.owner == request.user:
+        if request.user.is_authenticated and monitoria.monitor == request.user:
             messages.error(request, 'Você não pode inscrever-se em sua própria monitoria.')
             return redirect('monitorias_list')
 
@@ -138,7 +138,7 @@ class MonitoriaInscritoListView(LoginRequiredMixin, ListView):
     login_url = 'login'
 
     def get_queryset(self):
-        self.monitoria = get_object_or_404(Monitoria, pk=self.kwargs['pk'], owner=self.request.user)
+        self.monitoria = get_object_or_404(Monitoria, pk=self.kwargs['pk'], monitor=self.request.user)
         return self.monitoria.inscricoes.all()
 
     def get_context_data(self, **kwargs):

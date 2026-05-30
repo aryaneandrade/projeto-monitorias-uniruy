@@ -4,7 +4,7 @@ from monitorias.models import Monitoria, Categoria, Beneficio, Inscricao
 
 # Register your models here.
 class MonitoriaAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'descricao', 'data', 'categoria', 'beneficio', 'owner', 'vagas')
+    list_display = ('titulo', 'descricao', 'data', 'categoria', 'beneficio', 'monitor', 'vagas')
     search_fields = ('titulo', 'categoria__nome')
 
 class CategoriaAdmin(admin.ModelAdmin):

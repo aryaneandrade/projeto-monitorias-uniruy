@@ -3,14 +3,11 @@ from monitorias.models import Monitoria, Inscricao
 
 
 class MonitoriaModelForm(forms.ModelForm):
-    
     class Meta:
         model = Monitoria
-
-        exclude = ['owner']   
+        exclude = ['monitor']
 
         widgets = {
-
             'titulo': forms.TextInput(
                 attrs={
                     'class': 'form-control',
@@ -39,6 +36,7 @@ class MonitoriaModelForm(forms.ModelForm):
             ),
 
             'data': forms.DateInput(
+                format='%Y-%m-%d',
                 attrs={
                     'class': 'form-control',
                     'type': 'date'
@@ -48,10 +46,14 @@ class MonitoriaModelForm(forms.ModelForm):
             'vagas': forms.NumberInput(
                 attrs={
                     'class': 'form-control',
-                    'min': '1',
+                    'min': 1,
                     'placeholder': 'Número de vagas'
                 }
             ),
+        }
+
+        input_formats = {
+            'data': ['%Y-%m-%d']
         }
 
 
@@ -59,6 +61,7 @@ class InscricaoModelForm(forms.ModelForm):
     class Meta:
         model = Inscricao
         fields = ['nome', 'email', 'telefone']
+
         widgets = {
             'nome': forms.TextInput(
                 attrs={
@@ -86,6 +89,13 @@ class InscricaoModelForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if self.monitoria and Inscricao.objects.filter(monitoria=self.monitoria, email__iexact=email).exists():
-            raise forms.ValidationError('Este email já está inscrito nesta monitoria.')
+
+        if self.monitoria and Inscricao.objects.filter(
+            monitoria=self.monitoria,
+            email__iexact=email
+        ).exists():
+            raise forms.ValidationError(
+                'Este email já está inscrito nesta monitoria.'
+            )
+
         return email

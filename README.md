@@ -5,100 +5,123 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-316192?logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED?logo=docker&logoColor=white)
 ![Docker Compose](https://img.shields.io/badge/Docker_Compose-Orchestration-1D63ED?logo=docker&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?logo=amazonaws&logoColor=white)
 ![Nginx](https://img.shields.io/badge/Nginx-Web_Server-009639?logo=nginx&logoColor=white)
 ![Gunicorn](https://img.shields.io/badge/Gunicorn-WSGI_Server-499848)
 
-Aplicação Django para gestão de monitorias acadêmicas, com cadastro de monitores, divulgação de vagas e controle de inscrições.
+Aplicação Django para gestão de monitorias acadêmicas com painel de monitores, cadastro de inscrições e controle de vagas.
 
 ## Visão geral
 
-Sistema web com painel de monitores e portal público de monitorias. O projeto oferece:
+O projeto oferece:
 
-- autenticação de usuários;
-- cadastro e edição de monitorias;
-- gestão de inscrições e vagas;
-- painel restrito para monitores.
+- autenticação de usuários com email ou username;
+- cadastro, edição e exclusão de monitorias;
+- controle de inscrições e limite de vagas;
+- painel restrito para cada monitor;
+- execução oficial via Docker Compose com PostgreSQL, Gunicorn e Nginx.
 
-## Funcionalidades principais
+## Arquitetura
 
-- listagem pública de monitorias;
-- cadastro e login de monitores;
-- painel privado para gerenciamento de monitorias;
-- criação, edição e exclusão de monitorias;
-- controle de inscrições com limite de vagas;
-- proteção de acesso por proprietário.
+O sistema utiliza a seguinte pilha:
 
-## Tecnologias
-
-- Python
 - Django 6
 - PostgreSQL
-- Docker & Docker Compose
-- Bootstrap 5
+- Docker
+- Docker Compose
+- Gunicorn
+- Nginx
 
-## Estrutura principal
+## Estrutura do repositório
 
-- `docs/` – documentação técnica, diagramas, relatórios e apresentações
-- `app/` – configuração do projeto, URLs e templates globais
-- `contas/` – autenticação e registro
-- `monitorias/` – gestão de monitorias e inscrições
-- `static/` – assets de CSS e imagens
+- `app/` – configuração do Django, URLs e templates principais
+- `contas/` – autenticação e registro de usuários
+- `monitorias/` – models, views, forms e templates de monitorias e inscrições
+- `static/` – CSS e arquivos estáticos do frontend
 - `docker-compose.yml` – ambiente local
 - `docker-compose.prod.yml` – ambiente de produção
+- `docs/` – documentação adicional do projeto
+- `.env.example` – modelo de variáveis para ambiente local
+- `.env.example-prod` – modelo de variáveis para produção
 
-## Instalação local
+## Pré-requisitos
+
+- Docker
+- Docker Compose
+
+## Clonando o repositório
 
 ```bash
 git clone https://github.com/aryaneandrade/projeto-monitorias-uniruy.git
 cd projeto-monitorias-uniruy
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
 ```
-Acesse: `http://127.0.0.1:8000/monitorias/`
 
-## Execução com Docker
+## Configuração do ambiente local
 
-A execução via Docker permite subir toda a aplicação (Django + banco de dados) de forma automatizada.
-
-### Pré-requisitos
-- Docker
-- Docker Compose
-
-### Variáveis de ambiente
-Antes de iniciar, gere o arquivo de ambiente a partir do exemplo e realize as configurações necessárias: 
+Para executar localmente, crie o arquivo de ambiente a partir do modelo local:
 
 ```bash
-cp .env.local .env
-nano .env
+cp .env.example .env
 ```
-### Inicialização
+
+O arquivo `.env.example` é usado para execução local e pode ser ajustado conforme necessário.
+
+## Execução local
+
+O fluxo oficial de execução local é:
 
 ```bash
 docker compose up -d --build
 ```
 
-Acesse o serviço local configurado em `http://127.0.0.1:8080/`.
+Os serviços são iniciados automaticamente e incluem:
 
-## Deploy AWS
-
-O ambiente de produção utiliza:
-
-- Amazon EC2
-- Amazon RDS PostgreSQL
-- Nginx
+- PostgreSQL
+- Django
 - Gunicorn
-- Docker Compose
+- Nginx
 
-As configurações de ambiente são realizadas via arquivo `.env`
+O entrypoint do container já aplica migrações e coleta os arquivos estáticos automaticamente.
+
+## Acessando o sistema
+
+- Página inicial: `http://127.0.0.1:8080/`
+- Portal de monitorias: `http://127.0.0.1:8080/monitorias/`
+- Django Admin: `http://127.0.0.1:8080/admin/`
+
+## Administração
+
+Para criar um superusuário pelo container:
+
+```bash
+docker compose exec web python manage.py createsuperuser
+```
+
+## Testes
+
+Para executar a suíte de testes via Docker:
+
+```bash
+docker compose exec web python manage.py test
+```
+
+## Deploy de produção
+
+O projeto suporta execução em nuvem utilizando Docker Compose.
+
+Para preparar o ambiente de produção, utilize o modelo de variáveis de ambiente de produção:
+
+```bash
+cp .env.example-prod .env
+```
+
+Ajuste os valores em `.env` conforme o ambiente de produção.
+
+## Documentação
+
+- `docs/` – documentação adicional, relatórios e materiais de apoio
 
 ## Observações
 
-- Projeto configurado para PostgreSQL em `app/settings.py`.
-- Interface administrativa disponível em `/admin/`
-- Ambiente preparado para deploy em produção com Docker
+- A execução oficial do projeto é feita via Docker Compose.
+- As configurações de ambiente são definidas em `.env`.
+- O container aplica migrações e coleta arquivos estáticos automaticamente.

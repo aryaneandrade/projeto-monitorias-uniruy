@@ -18,6 +18,7 @@ class MonitoriaListView(ListView):
         monitorias = (
                 super()
                 .get_queryset()
+                .select_related('monitor', 'categoria', 'beneficio')
                 .annotate(total_inscricoes=Count('inscricoes'))
                 .order_by('titulo')
         )
@@ -68,11 +69,13 @@ class MonitoriaUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, 'Monitoria atualizada com sucesso!')
+
+        messages.success(
+            self.request,
+            'Monitoria atualizada com sucesso!'
+        )
+
         return response
-    def form_valid(self, form):
-        print("DATA:", form.cleaned_data.get("data"))
-        return super().form_valid(form)
 
 
 class MonitoriaDeleteView(LoginRequiredMixin, DeleteView):

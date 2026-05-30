@@ -29,3 +29,29 @@ class ContasTestCase(TestCase):
         })
 
         self.assertIn(response.status_code, [200, 302])
+
+    def test_login_por_email(self):
+        User.objects.create_user(
+            username="loginuser",
+            email="loginuser@example.com",
+            password="12345"
+        )
+
+        response = self.client.post(reverse("login"), {
+            "username": "loginuser@example.com",
+            "password": "12345"
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_logout_redireciona(self):
+        user = User.objects.create_user(
+            username="logoutuser",
+            password="12345"
+        )
+        self.client.login(username="logoutuser", password="12345")
+
+        response = self.client.get(reverse("logout"))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("monitorias_list"))

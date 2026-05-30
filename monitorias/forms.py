@@ -3,6 +3,7 @@ from monitorias.models import Monitoria, Inscricao
 
 
 class MonitoriaModelForm(forms.ModelForm):
+
     class Meta:
         model = Monitoria
         exclude = ['monitor']
@@ -52,12 +53,15 @@ class MonitoriaModelForm(forms.ModelForm):
             ),
         }
 
-        input_formats = {
-            'data': ['%Y-%m-%d']
-        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # garante compatibilidade no bind do Django
+        self.fields['data'].input_formats = ['%Y-%m-%d']
 
 
 class InscricaoModelForm(forms.ModelForm):
+
     class Meta:
         model = Inscricao
         fields = ['nome', 'email', 'telefone']
@@ -69,12 +73,14 @@ class InscricaoModelForm(forms.ModelForm):
                     'placeholder': 'Seu nome completo'
                 }
             ),
+
             'email': forms.EmailInput(
                 attrs={
                     'class': 'form-control',
                     'placeholder': 'email@exemplo.com'
                 }
             ),
+
             'telefone': forms.TextInput(
                 attrs={
                     'class': 'form-control',
@@ -84,8 +90,8 @@ class InscricaoModelForm(forms.ModelForm):
         }
 
     def __init__(self, *args, monitoria=None, **kwargs):
-        self.monitoria = monitoria
         super().__init__(*args, **kwargs)
+        self.monitoria = monitoria
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

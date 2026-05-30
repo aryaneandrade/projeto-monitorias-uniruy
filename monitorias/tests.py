@@ -110,6 +110,10 @@ class MonitoriaViewTests(TestCase):
         response = self.client.get(reverse("monitorias_list"))
         self.assertEqual(response.status_code, 200)
 
+    def test_lista_monitorias_exibe_titulo(self):
+        response = self.client.get(reverse("monitorias_list"))
+        self.assertContains(response, self.monitoria.titulo)
+
     def test_criar_monitoria_requer_login(self):
         response = self.client.get(reverse("criar_monitoria"))
         self.assertIn(response.status_code, [302, 403])

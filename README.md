@@ -60,10 +60,24 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
-
 Acesse: `http://127.0.0.1:8000/monitorias/`
 
 ## Execução com Docker
+
+A execução via Docker permite subir toda a aplicação (Django + banco de dados) de forma automatizada.
+
+### Pré-requisitos
+- Docker
+- Docker Compose
+
+### Variáveis de ambiente
+Antes de iniciar, gere o arquivo de ambiente a partir do exemplo e realize as configurações necessárias: 
+
+```bash
+cp .env.local .env
+nano .env
+```
+### Inicialização
 
 ```bash
 docker compose up -d --build

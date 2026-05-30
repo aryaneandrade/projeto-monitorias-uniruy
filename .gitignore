@@ -12,8 +12,7 @@ env/
 
 # Environment files
 .env
-.env.local
-.env.*.local
+.
 
 # Django artifacts
 db.sqlite3

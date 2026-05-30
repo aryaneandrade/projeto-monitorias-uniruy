@@ -39,8 +39,6 @@ RUN mkdir -p /home/appuser/projeto/staticfiles && chown -R appuser:appuser /home
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-USER appuser
-
 ENV PATH="/home/appuser/.local/bin:$PATH"
 
 EXPOSE 8000

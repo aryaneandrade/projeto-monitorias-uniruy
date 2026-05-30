@@ -16,7 +16,12 @@ python manage.py migrate --noinput
 
 # Collect static files
 echo "Collect static files"
-mkdir -p /home/appuser/projeto/staticfiles
+if [ "$(id -u)" -eq 0 ]; then
+  mkdir -p /home/appuser/projeto/staticfiles
+  chown -R appuser:appuser /home/appuser/projeto/staticfiles || true
+else
+  mkdir -p /home/appuser/projeto/staticfiles
+fi
 python manage.py collectstatic --noinput
 
 # Start Gunicorn

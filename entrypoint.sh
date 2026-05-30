@@ -17,7 +17,6 @@ python manage.py migrate --noinput
 # Collect static files
 echo "Collect static files"
 mkdir -p /home/appuser/projeto/staticfiles
-chown -R appuser:appuser /home/appuser/projeto/staticfiles
 python manage.py collectstatic --noinput
 
 # Start Gunicorn

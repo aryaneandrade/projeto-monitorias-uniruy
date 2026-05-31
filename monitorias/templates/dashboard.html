@@ -1,0 +1,130 @@
+{% extends 'base.html' %} {% block title %} Dashboard | UniRuy {% endblock %} 
+{% block content %}
+
+<main class="container my-5">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3"
+  >
+    <div>
+      <h3 class="fw-bold mb-1">Dashboard do Monitor</h3>
+      <p class="text-muted mb-0">Resumo das suas monitorias e inscrições.</p>
+    </div>
+
+    <div class="d-flex gap-2">
+      <a
+        href="{% url 'painel' %}"
+        class="btn btn-outline-secondary"
+      >
+        <i class="fas fa-arrow-left me-2"></i>
+        Voltar ao Painel
+      </a>
+      <a
+        href="{% url 'criar_monitoria' %}"
+        class="btn btn-warning btn-inscricao"
+      >
+        <i class="fas fa-plus me-2"></i>
+        Nova Monitoria
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <span class="text-muted small">Monitorias criadas</span>
+          <h4 class="fw-bold mb-0">{{ total_monitorias }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <span class="text-muted small">Inscrições recebidas</span>
+          <h4 class="fw-bold mb-0">{{ total_inscricoes }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <span class="text-muted small">Vagas preenchidas</span>
+          <h4 class="fw-bold mb-0">{{ vagas_preenchidas }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <span class="text-muted small">Vagas restantes</span>
+          <h4 class="fw-bold mb-0">{{ vagas_restantes }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h5 class="card-title mb-0">Inscrições por monitoria</h5>
+          <p class="text-muted small mb-0">
+            Acompanhe quantos alunos se inscreveram em cada monitoria.
+          </p>
+        </div>
+      </div>
+      <div style="min-height: 320px">
+        <canvas id="inscricoesChart"></canvas>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('inscricoesChart');
+    if (!ctx) return;
+
+    const labels = {{ chart_labels|safe }};
+    const data = {{ chart_data|safe }};
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Inscrições',
+          data: data,
+          backgroundColor: 'rgba(13, 110, 253, 0.75)',
+          borderColor: 'rgba(13, 110, 253, 1)',
+          borderWidth: 1,
+          borderRadius: 8,
+          maxBarThickness: 48,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+  });
+</script>
+
+{% endblock %}

@@ -1,3 +1,5 @@
+import json
+
 from monitorias.models import Monitoria, Categoria, Inscricao
 from monitorias.forms import MonitoriaModelForm, InscricaoModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -153,3 +155,31 @@ class MonitoriaInscritoListView(LoginRequiredMixin, ListView):
 @login_required(login_url='login')
 def painel_view(request):
     return render(request, 'painel_monitor.html')
+
+
+@login_required(login_url='login')
+def dashboard_view(request):
+    monitorias_qs = (
+        Monitoria.objects.filter(monitor=request.user)
+        .annotate(inscricoes_count=Count('inscricoes'))
+        .order_by('titulo')
+    )
+
+    monitorias = list(monitorias_qs)
+    total_monitorias = len(monitorias)
+    total_inscricoes = sum(m.inscricoes_count for m in monitorias)
+    total_vagas = sum(m.vagas for m in monitorias)
+    vagas_preenchidas = total_inscricoes
+    vagas_restantes = max(total_vagas - vagas_preenchidas, 0)
+
+    chart_labels = json.dumps([m.titulo for m in monitorias])
+    chart_data = json.dumps([m.inscricoes_count for m in monitorias])
+
+    return render(request, 'dashboard.html', {
+        'total_monitorias': total_monitorias,
+        'total_inscricoes': total_inscricoes,
+        'vagas_preenchidas': vagas_preenchidas,
+        'vagas_restantes': vagas_restantes,
+        'chart_labels': chart_labels,
+        'chart_data': chart_data,
+    })

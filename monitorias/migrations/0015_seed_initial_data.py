@@ -39,7 +39,7 @@ def reverse_initial_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("monitorias", "000X_ultima_migration"),
+        ("monitorias", "0014_rename_owner_monitoria_monitor"),
     ]
 
     operations = [

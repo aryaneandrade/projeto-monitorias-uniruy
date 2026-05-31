@@ -8,7 +8,7 @@
 ![Nginx](https://img.shields.io/badge/Nginx-Web_Server-009639?logo=nginx&logoColor=white)
 ![Gunicorn](https://img.shields.io/badge/Gunicorn-WSGI_Server-499848)
 
-Aplicação Django para gestão de monitorias acadêmicas com painel de monitores, cadastro de inscrições e controle de vagas.
+Aplicação Django para gestão de monitorias acadêmicas com painel de monitores, dashboard de métricas, cadastro de inscrições e controle de vagas.
 
 ![Tela Principal](docs/images/home.png)
 
@@ -20,6 +20,7 @@ O projeto oferece:
 - cadastro, edição e exclusão de monitorias;
 - controle de inscrições e limite de vagas;
 - painel restrito para cada monitor;
+- dashboard do monitor com métricas e gráfico de inscrições por monitoria;
 - execução oficial via Docker Compose com PostgreSQL, Gunicorn e Nginx.
 
 ## Arquitetura
@@ -88,6 +89,7 @@ O entrypoint do container já aplica migrações e coleta os arquivos estáticos
 
 - Página inicial: `http://127.0.0.1:8080/`
 - Portal de monitorias: `http://127.0.0.1:8080/monitorias/`
+- Dashboard do monitor: `http://127.0.0.1:8080/dashboard/`
 - Django Admin: `http://127.0.0.1:8080/admin/`
 
 ## Administração
@@ -127,3 +129,4 @@ Ajuste os valores em `.env` conforme o ambiente de produção.
 - A execução oficial do projeto é feita via Docker Compose.
 - As configurações de ambiente são definidas em `.env`.
 - O container aplica migrações e coleta arquivos estáticos automaticamente.
+- O painel do monitor inclui link para navegar ao dashboard.
